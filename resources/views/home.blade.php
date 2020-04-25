@@ -56,20 +56,34 @@
                     <div class="container">
                         <div class="row">
                             @foreach($ads as $ad) 
+                            @php
+                                $productName = $ad->name;
+                                if(strlen($productName)>50){
+                                    $productName = substr($productName,0,47) ."...";
+                                }
+                            @endphp
                             {{-- foreach adddddddddddddddddddddddddd --}}
-                                <div class="col-md-4">
+                                <div class="col col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                     <a href="{{ route('ads.show', $ad->id) }}">
 
                                         <div class="custom_card card mb-4">
-                                            <img src="{{ $ad->image }}" class="card-img-top pt-2 pl-2 pr-2" style="height:200px; object-fit:contain" alt="{{ $ad->name }}">
+                                            <img src="{{ $ad->image }}" class="card-img-top pt-2 pl-2 pr-2"
+                                             style="height:200px; object-fit:contain" alt="{{ $productName }}">
 
                                             <div class="card-body">
-                                                <p class="card-title" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight:bold">{{ $ad->name }}</p>
+                                                <p class="card-title" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+                                                    {{ $productName }}</p>
+                                                @if (strlen($productName)<26)
+                                                    <br/>
+                                                @endif
                                                 <span>
                                                     <p class="d-inline ">Category : </p>
-                                                    <strong class="d-inline " > {{$ad->category}}</strong>
+                                                    <p class="d-inline " > {{$ad->category}}</p>
                                                 </span>
-                                              
+                                                <div>
+                                                    <p class="d-inline " style="color:seagreen">Price : </p> 
+                                                    <strong class="d-inline" style="color:seagreen"> {{ $ad->price }} TK</strong>
+                                                </div>
                                             </div>
                                         </div>
                                     </a>

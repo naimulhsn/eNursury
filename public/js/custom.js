@@ -68,4 +68,25 @@ $(document).ready(function () {
   
 });
 
+jQuery(document).ready(function($) {
 
+var sitePlusMinus = function() {
+    $('.js-btn-minus').on('click', function(e){
+        e.preventDefault();
+        if ( $(this).closest('.input-group').find('.quantity').val()  >1  ) {
+            $(this).closest('.input-group').find('.quantity').val(parseInt($(this).closest('.input-group').find('.quantity').val()) - 1);
+        } else {
+            $(this).closest('.input-group').find('quantity').val(parseInt(1));
+        }
+    });
+    $('.js-btn-plus').on('click', function(e){
+        e.preventDefault();
+        if ( $(this).closest('.input-group').find('.quantity').val() < 100  ) {
+            $(this).closest('.input-group').find('.quantity').val(parseInt($(this).closest('.input-group').find('.quantity').val()) + 1);
+        } else {
+            $(this).closest('.input-group').find('quantity').val(parseInt(100));
+        }
+    });
+};
+sitePlusMinus();
+});

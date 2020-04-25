@@ -8,9 +8,34 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    
+    public function products(){
+        return $this->hasMany('app\Product');
+    }
     public function ads(){
         return $this->hasMany('app\Ad');
+    }
+    public function orders(){
+        return $this->hasMany('app\Order');
+    }
+    public function customer_order_products(){
+        return $this->hasMany('app\OrderedProduct','seller_id');
+    }
+    public function orderedProducts(){
+        return $this->hasMany('app\OrderedProduct');
+    }
+    public function cartProducts(){
+        return $this->hasMany('app\CartProduct');
+    }
+    public function wishlists(){
+        return $this->hasMany('app\Wishlist');
+    }
+
+
+    public function general(){
+        return $this->hasOne('app\General');
+    }
+    public function seller(){
+        return $this->hasOne('app\Seller');
     }
     
 
@@ -25,7 +50,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'gender','dept','session','phone','email', 'password',
+        'name','type','general_id','seller_id','email', 'password',
     ];
 
     /**
@@ -45,8 +70,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
 
     
 }

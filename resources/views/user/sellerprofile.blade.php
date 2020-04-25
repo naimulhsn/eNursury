@@ -2,9 +2,15 @@
 
 @section('content')
 <div class="container">
+    {{-- <img src="/images/male.jpg" class="img-fluid " alt="Responsive image"> --}} 
+    <img src="/images/1.jpg" class="" style="width: 100%;
+    height: 300px;
+    object-fit: cover;" alt="cover img">
     <div class="row justify-content-center">
+                
 
-            <div class="col-md-6">
+
+            <div class="col-md-12">
                     <div class="card">
     
                         <div class="card-body">
@@ -22,7 +28,7 @@
                                         </div-->
                                     </div>
                                     <div class="userData ml-3">
-                                        <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">{{$user->general->name}}</h2>
+                                        <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">{{$user->seller->name}}</h2>
                                         {{-- <h6 class="d-block"><a href="javascript:void(0)">{{count($ads)}}</a> Ad uploaded</h6> --}}
                                     </div>
                                     
@@ -33,7 +39,7 @@
                                 <div class="col-12">
                                     <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Information</a>
+                                            <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">About This Nursery</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content ml-1" id="myTabContent">
@@ -45,7 +51,7 @@
                                                     <label style="font-weight:bold;">Full Name</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <span class="myFont">{{$user->general->name}}</span> 
+                                                    <span class="myFont">{{$user->seller->name}}</span> 
                                                 </div>
                                             </div>
                                             
@@ -56,10 +62,29 @@
                                                     <label style="font-weight:bold;">District</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <span class="myFont">{{$user->general->district}} </span> 
+                                                    <span class="myFont">{{$user->seller->district}} </span> 
                                                 </div>
                                             </div>
                                             <hr />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label style="font-weight:bold;">Location</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <span class="myFont">{{$user->seller->location}} </span> 
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label style="font-weight:bold;">About Us </label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <span class="myFont">{{$user->seller->about}} </span> 
+                                                </div>
+                                            </div>
+                                            <hr />
+                                           
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label style="font-weight:bold;">Email</label>
@@ -69,12 +94,12 @@
                                                 </div>
                                             </div>
                                             <hr />
-                                            {{-- <div class="row">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <label style="font-weight:bold;">Phone</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <span class="myFont" id="phoneNumber">{{$user->phone}} </span> 
+                                                    <span class="myFont" id="phoneNumber">{{$user->seller->phone}} </span> 
                                                 </div>
                                                 @if($user->id!== Auth::user()->id )
                                                 <div class="col-md-2">
@@ -104,17 +129,6 @@
                                                 </div>
                                                 @endif
                                             </div>
-                                            <hr /> --}}
-                                            @if($user->id!== Auth::user()->id && count($ads)>0)
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="alert alert-success" role="alert">
-                                                        <strong>Contact the Seller through Phone.</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            @endif
                                             
     
                                         </div>
@@ -144,14 +158,22 @@
                     
             </div>
         </div-->
-        <div class="col-md-6">
+        @php
+            //$map= "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3647.9136826615572!2d".$user->seller->longitude."!3d".$user->seller->latitude."!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1584649386568!5m2!1sen!2sbd"; 
+            $map= "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d184615.2587414252!2d".$user->seller->longitude."!3d".$user->seller->latitude."!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1584649386568!5m2!1sen!2sbd"; 
+        @endphp
+        <div class="col-md-12 mt-2">
+            <iframe src={{$map}}
+            width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+        <div class="col-md-12 mt-4">
             <div class="card mb-2">
-                <h5 class="m-2">Uploaded Ads</h5>
+                <h5 class="m-2">Plants to sell</h5>
             </div>
             <div class="row">
             @foreach($ads as $ad) 
                 {{-- foreach adddddddddddddddddddddddddd --}}
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <a href="{{ route('ads.show', $ad->id) }}">
 
                             <div class="custom_card card mb-4">

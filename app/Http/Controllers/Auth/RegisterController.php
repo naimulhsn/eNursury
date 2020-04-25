@@ -3,14 +3,14 @@
 namespace app\Http\Controllers\Auth;
 
 use app\User;
+use app\General;
+use app\Seller;
 use app\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 use app\Rules\ValidGender;
-use app\Rules\ValidDept;
-use app\Rules\ValidSession;
 use app\Rules\ValidPhone;
 class RegisterController extends Controller
 {
@@ -52,15 +52,28 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'gender'=> [new ValidGender],
-            'dept'=> [new ValidDept],
-            'session'=> [new ValidSession],
-            'phone'=> [new ValidPhone],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        if($data['type']=='general'){
+            return Validator::make($data, [
+                'type' =>'required',
+                'name' => ['required', 'string', 'max:255'],
+                'district' => ['required'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ]);
+        }
+        else{
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'district' => ['required','string'],
+                'location' => ['required','string'],
+                'about' => ['required','string'],
+                'cover' => ['required','max:100000000|mimes:jpg,jpeg,png,gif,svg'],
+                'phone'=> [new ValidPhone],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ]);
+        }
+        
     }
 
     /**
@@ -71,14 +84,49 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
-            'gender'=>$data['gender'],
-            'dept'=>$data['dept'],
-            'session'=>$data['session'],
-            'phone'=>$data['phone'],
+            'type' => $data['type'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password'])
         ]);
+        
+        $access_key = '77b849298045c6710081ba2e64687cee';
+        // Initialize CURL:
+        $ch = curl_init('http://api.ipstack.com/check?access_key='.$access_key.'');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Store the data:
+        $json = curl_exec($ch);
+        curl_close($ch);
+        // Decode JSON response:
+        $api_result = json_decode($json, true);
+        $latitude = $api_result['latitude'];
+        $longitude = $api_result['longitude'];
+
+
+        if($data['type']=='general'){
+            $genral=General::create([
+                'name' => $data['name'],
+                'user_id' => $user->id,
+                'district' => $data['district'],
+                'latitude' => $latitude,
+                'longitude' => $longitude
+            ]);
+        }
+        else{
+            $seller = Seller::create([
+                'name' => $data['name'],
+                'user_id' => $user->id,
+                'district' => $data['district'],
+                'location' => $data['location'],
+                'about' => $data['about'],
+                'phone' => $data['phone'],
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'distance' => $latitude*$longitude*100
+            ]);
+        }
+        return $user;
     }
 }

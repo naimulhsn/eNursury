@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        
+                        <input type="hidden" id="type" name="type" value="general">
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
@@ -28,18 +28,18 @@
 
                      
                         <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
+                            <label for="district" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="tel" pattern="[0][1][456789][0-9]{8}" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
-
-                                @error('phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select class="form-control" name="district" required>
+                                    <option selected="true" disabled="disabled" value="">Select :</option>
+                                    <option value="Dhaka">Dhaka</option>
+                                    <option value="Gazipur">Gazipur</option>
+                                    <option value="Gopalganj">Gopalganj</option>
+                                </select>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 

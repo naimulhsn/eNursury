@@ -20,3 +20,4 @@
     <link href="{{asset('css/custom_card.css')}}" rel="stylesheet" type="text/css">
 
     <script src="{{ asset('js/custom.js') }}" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

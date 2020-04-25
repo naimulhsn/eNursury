@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except([]);
+        $this->middleware('auth')->except(['registerseller']);
     }
     /**
      * Display a listing of the resource.
@@ -22,10 +22,23 @@ class UserController extends Controller
         $user=User::where('id',$id)->first();
         $ads=Ad::where('user_id',$id)->latest()->get();
         //return dd($user['gender'] , $ads);
-        return view('user.profile',[
-            'user'=>$user,
-            'ads'=>$ads
-        ]);
+        if($user->type=='general'){
+            return view('user.profile',[
+                'user'=>$user,
+                'ads'=>$ads
+            ]);
+        }
+        else {
+            return view('user.sellerprofile',[
+                'user' => $user,
+                'ads' => $ads
+            ]);
+        }
+
+    }
+    public function registerseller()
+    {
+        return view('auth.registerseller');
 
     }
 }

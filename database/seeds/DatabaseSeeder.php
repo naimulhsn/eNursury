@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
 
         $faker = Faker\Factory::create();
-
+/*
         User::create([
             'name'  => 'Naimul Hasan',
             'gender' => 'Male',
@@ -46,9 +46,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        */
+
         //Seeding Ads
 
-        $categories = ['Flower Plants','Fruit tree','Herbal Tree','orchids','Furtilizer','Pots','Accesorries'];
+        $categories = ['Flower Plants','Fruit tree','Herbal Tree','orchids','Furtilizer','Pots','Accesorries','Others'];
         $conditions = ['Germinated','From seed'];
         
         for($i=0; $i<100; $i++){
@@ -57,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'user_id'=>rand(1,10),
                 'name'=>ucfirst($faker->sentence($nbWords = 3, $variableNbWords = true) ),
                 'price'=>rand(100,5000),
-                'category'=>$categories[rand(0,6)],
+                'category'=>$categories[rand(0,7)],
                 'description'=>$faker->paragraph,
                 'available'=>rand(0,1),
                 'image'=>$img
@@ -66,7 +68,7 @@ class DatabaseSeeder extends Seeder
 
         //Seeding Categories 
 
-        for($i=0; $i<7; $i++){
+        for($i=0; $i<8; $i++){
             $count=Ad::where('category',$categories[$i])->count();
             Category::create([
                 'category'=>$categories[$i],

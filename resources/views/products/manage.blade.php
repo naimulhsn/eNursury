@@ -48,7 +48,7 @@
                                                 </div>
                                                 <br>
                                                 <a class="btn btn-outline-success btn-block" href="{{route('products.show',$product->id)}} " role="button">Show Product</a>
-                                                <a class="btn btn-outline-primary btn-block" href="{{route('products.edit',$product->id)}}" role="button">Edit info</a>                                                <form method="POST" action="{{ route('products.destroy',$product->id) }}">
+                                                <a class="btn btn-outline-primary btn-block" href="{{route('products.edit',$product->id)}}" role="button">Edit info</a>                                              
                                                 <form method="POST" action="{{ route('products.destroy',$product->id) }}">
                                                     @csrf
                                                     @method('DELETE')
